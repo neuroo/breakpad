@@ -47,6 +47,7 @@ extern "C" {  // necessary for Leopard
 #include "common/mac/macho_walker.h"
 #include "common/mac/macho_utilities.h"
 
+
 namespace MacFileUtilities {
 
 MachoWalker::MachoWalker(const char *path, LoadCommandCallback callback,

@@ -66,6 +66,34 @@ elseif(APPLE)
 		${CLIENT_SRC_DIR}/handler/minidump_generator.cc
 	)
 
+  set(PROCESSOR_SRC_DIR ${BREAKPAD_SRC_DIR}/processor)
+
+  set(BREAKPAD_READER_LIB_SRCS
+    ${PROCESSOR_SRC_DIR}/basic_source_line_resolver.cc
+    ${PROCESSOR_SRC_DIR}/basic_code_modules.cc
+    ${PROCESSOR_SRC_DIR}/call_stack.cc
+    ${PROCESSOR_SRC_DIR}/cfi_frame_info.cc
+    ${PROCESSOR_SRC_DIR}/disassembler_x86.cc
+    ${PROCESSOR_SRC_DIR}/exploitability.cc
+    ${PROCESSOR_SRC_DIR}/exploitability_win.cc
+    ${PROCESSOR_SRC_DIR}/external_symbol_supplier.cc
+    ${PROCESSOR_SRC_DIR}/logging.cc
+    ${PROCESSOR_SRC_DIR}/minidump.cc
+    ${PROCESSOR_SRC_DIR}/minidump_processor.cc
+    ${PROCESSOR_SRC_DIR}/minidump_stackwalk.cc
+    ${PROCESSOR_SRC_DIR}/pathname_stripper.cc
+    ${PROCESSOR_SRC_DIR}/process_state.cc
+    ${PROCESSOR_SRC_DIR}/simple_symbol_supplier.cc
+    ${PROCESSOR_SRC_DIR}/stackwalker.cc
+    ${PROCESSOR_SRC_DIR}/stackwalker_amd64.cc
+    ${PROCESSOR_SRC_DIR}/stackwalker_arm.cc
+    ${PROCESSOR_SRC_DIR}/stackwalker_ppc.cc
+    ${PROCESSOR_SRC_DIR}/stackwalker_sparc.cc
+    ${PROCESSOR_SRC_DIR}/stackwalker_x86.cc
+    ${PROCESSOR_SRC_DIR}/source_line_resolver_base.cc
+    ${PROCESSOR_SRC_DIR}/tokenize.cc
+  )
+
 	set(DUMPSYMS_SRCS
 		${BREAKPAD_SRC_DIR}/common/dwarf/bytereader.cc
 		${BREAKPAD_SRC_DIR}/common/dwarf/dwarf2diehandler.cc
@@ -108,7 +136,33 @@ elseif(UNIX)
 		${CLIENT_SRC_DIR}/minidump_writer/linux_ptrace_dumper.cc
 		${CLIENT_SRC_DIR}/minidump_writer/minidump_writer.cc
 	)
-	
+
+  set(BREAKPAD_READER_LIB_SRCS
+    ${PROCESSOR_SRC_DIR}/basic_source_line_resolver.cc
+    ${PROCESSOR_SRC_DIR}/basic_code_modules.cc
+    ${PROCESSOR_SRC_DIR}/call_stack.cc
+    ${PROCESSOR_SRC_DIR}/cfi_frame_info.cc
+    ${PROCESSOR_SRC_DIR}/disassembler_x86.cc
+    ${PROCESSOR_SRC_DIR}/exploitability.cc
+    ${PROCESSOR_SRC_DIR}/exploitability_win.cc
+    ${PROCESSOR_SRC_DIR}/external_symbol_supplier.cc
+    ${PROCESSOR_SRC_DIR}/logging.cc
+    ${PROCESSOR_SRC_DIR}/minidump.cc
+    ${PROCESSOR_SRC_DIR}/minidump_processor.cc
+    ${PROCESSOR_SRC_DIR}/minidump_stackwalk.cc
+    ${PROCESSOR_SRC_DIR}/pathname_stripper.cc
+    ${PROCESSOR_SRC_DIR}/process_state.cc
+    ${PROCESSOR_SRC_DIR}/simple_symbol_supplier.cc
+    ${PROCESSOR_SRC_DIR}/stackwalker.cc
+    ${PROCESSOR_SRC_DIR}/stackwalker_amd64.cc
+    ${PROCESSOR_SRC_DIR}/stackwalker_arm.cc
+    ${PROCESSOR_SRC_DIR}/stackwalker_ppc.cc
+    ${PROCESSOR_SRC_DIR}/stackwalker_sparc.cc
+    ${PROCESSOR_SRC_DIR}/stackwalker_x86.cc
+    ${PROCESSOR_SRC_DIR}/source_line_resolver_base.cc
+    ${PROCESSOR_SRC_DIR}/tokenize.cc
+  )
+
 	set(DUMPSYMS_SRCS
 		${BREAKPAD_SRC_DIR}/common/dwarf/bytereader.cc
 		${BREAKPAD_SRC_DIR}/common/dwarf/dwarf2diehandler.cc
@@ -133,6 +187,10 @@ target_link_libraries(breakpad_common ${BREAKPADCOMMON_LIBS})
 # occurs
 add_library(breakpad ${BREAKPAD_LIB_SRCS})
 target_link_libraries(breakpad breakpad_common)
+
+# breakpad_reader - client library for reading minidumps
+add_library(breakpad_reader ${BREAKPAD_READER_LIB_SRCS})
+target_link_libraries(breakpad_reader breakpad breakpad_common)
 
 # dump_syms - Tool for producing cross-platform .sym files
 # from a binary with debug info
